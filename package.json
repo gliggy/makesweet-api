@@ -1,0 +1,22 @@
+{
+  "name": "makesweet-cli",
+  "version": "1.0.0",
+  "description": "Put pictures into animations from the command line.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulfitz/makesweet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulfitz/makesweet/issues"
+  },
+  "homepage": "https://github.com/paulfitz/makesweet#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
