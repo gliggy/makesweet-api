@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <style>
+     body {
+       font-size: 240px;
+     }
+     #target {
+       text-align: center;
+       white-space: pre-line;
+       text-shadow: 0px 0px 8px #fff, 0px 0px 8px #fff, 0px 0px 8px #fff;
+     }
+    </style>
+  </head>
+<body>
+<p id="target">
+This is a test<br>my friend.
+</p>
+
+<script>
+function callback(txt) {
+  document.getElementById("target").innerHTML = JSON.parse(txt).text;
+  window.status = "ready_to_print";
+}
+function loadJSON() {   
+
+    var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+    xobj.open('GET', './text.json', true);
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4) {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);  
+}
+loadJSON();
+</script>
+
+</body>
+</html>
