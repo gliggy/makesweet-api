@@ -18,6 +18,11 @@ const app = express()
 app.use(express.static('public'));
 
 app.post('/make/:template', upload.any('images'), handleErrors, (req, res) => {
+    const authorization = String(req.header('authorization')).replace(/[^a-zA-Z0-9]/g, '');
+    if (authorization.length === 0 || !fs.existsSync(path.join(process.cwd(), 'keys', authorization))) {
+        throw new ApiError(401, 'You need a good Authorization header');
+    }
+    
     const textHtml = `${process.cwd()}/text.html`;
     const output = `${workDir}/${uuid.v4()}.gif`;
     const template = getTemplatePathFromName(req.params.template);
