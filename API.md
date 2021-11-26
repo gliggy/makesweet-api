@@ -1,4 +1,5 @@
 How to use the makesweet api:
+-------
 
   1. get a computer
   2. get curl
@@ -6,8 +7,8 @@ How to use the makesweet api:
   4. receive a response
   5. do whatever you want with it.
 
-
 examples (assuming MAKESWEET_API is set as env var):
+
 -------
 
 send only text (use &text for more text):
