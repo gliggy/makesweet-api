@@ -1,2 +1,23 @@
-Hello! This is the makesweet api. Welcome.
-
+<h2 id="how-to-use-the-makesweet-api">How to use the makesweet api:</h2>
+<ol type="1">
+<li>get a computer</li>
+<li>get curl</li>
+<li>send a POST request with things in it</li>
+<li>receive a response</li>
+<li>do whatever you want with it.</li>
+</ol>
+<p>examples (assuming MAKESWEET_API is set as env var):</p>
+<hr />
+<p>send only text (use &amp;text for more text):</p>
+<pre><code>curl -H &quot;Authorization: key&quot; -XPOST https://api.makesweet.com/make/heart-locket?text=hello -o hello.gif</code></pre>
+<hr />
+<p>send only images (for multiple images, repeat with another -F):</p>
+<pre><code>curl -H &quot;Authorization: key&quot; -XPOST https://api.makesweet.com/make/heart-locket -F &quot;images[]=@image.jpg&quot; -o animation.gif</code></pre>
+<hr />
+<p>send both text and images:</p>
+<pre><code>curl -H &quot;Authorization: key&quot; -XPOST https://api.makesweet.com/make/heart-locket?text=squirrel -F &quot;images[]=@image.jpg&quot; -o animation.gif</code></pre>
+<hr />
+<p>send stuff with text border:</p>
+<pre><code>curl -H &quot;Authorization: key&quot; -XPOST &quot;https://api.makesweet.com/make/heart-locket?text=a+frog,%0Aa+very,+very+coolfrog&amp;textborder=200&quot; -F images=@frog.jpg -o frog.gif</code></pre>
+<hr />
+<p>the default is images go before text, use &amp;textfirst=1 to make text go first.</p>
