@@ -8,7 +8,8 @@ const fs = require ('fs')
 const os = require('os')
 const path = require('path')
 
-const port = 3000
+const host = process.env.MAKESWEET_HOST || 'localhost'
+const port = process.env.MAKESWEET_PORT || 3000
 
 const workDir = '/tmp/makesweet-api'
 const upload = multer({ dest: workDir })
@@ -42,8 +43,8 @@ app.post('/make/:template', upload.any('images'), handleErrors, (req, res) => {
 
 app.use(handleErrors)
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+app.listen(port, host, () => {
+    console.log(`Example app listening at http://${host}:${port}`)
 })
 
 function execSync(command) {
