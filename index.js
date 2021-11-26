@@ -147,7 +147,7 @@ class Generator {
         return [...dirs].sort();
     }
     getCommand() {
-        const command = ['run'];
+        const command = ['run', '--rm'];
         for (const volume of this.getVolumes()) {
             command.push('-v', `${volume}:${volume}`);
         }
