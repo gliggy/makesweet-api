@@ -7,7 +7,7 @@ How to use the makesweet api:
   4. receive a response
   5. do whatever you want with it.
 
-examples (assuming MAKESWEET_API is set as env var):
+examples:
 
 -------
 
