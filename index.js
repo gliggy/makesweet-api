@@ -19,9 +19,9 @@ app.get('/', (req, res) => {
 })
 
 app.post('/make/:template', upload.any('images'), handleErrors, (req, res) => {
-    if (!req.files) {
-        throw new ApiError(400, 'i hunger for images...');
-    }
+//    if (!req.files) {
+//        throw new ApiError(400, 'i hunger for images...');
+//    }
     const textHtml = `${process.cwd()}/text.html`;
     const output = `${workDir}/${uuid.v4()}.gif`;
     const template = getTemplatePathFromName(req.params.template);
@@ -30,6 +30,9 @@ app.post('/make/:template', upload.any('images'), handleErrors, (req, res) => {
     try {
         generator.addTexts(req.query.text, textHtml);
         generator.addImages(req.files);
+	if (req.query.textfirst) {
+	    generator.setTextFirst();
+	}
         generator.setOutput(output);
 	res.send(generator.apply());
     } finally {
@@ -102,6 +105,7 @@ class Generator {
         this.template = null;
         this.output = null;
         this.tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'makesweet-api'));
+	this.textFirst = false;
     }
     useFile(fname) {
         this.fnames.push(fname);
@@ -109,6 +113,9 @@ class Generator {
     useTemplate(fname) {
         this.useFile(fname);
         this.template = fname;
+    }
+    setTextFirst() {
+	this.textFirst = true;
     }
     addImages(files) {
         if (!files) { return; }
@@ -149,11 +156,11 @@ class Generator {
         command.push('paulfitz/makesweet');
         command.push('--zip', path.resolve(this.template));
         command.push('--in');
-        for (const image of this.images) {
-            command.push(image);
-        }
-        for (const text of this.texts) {
-            command.push(text);
+	const parts = this.textFirst ? [this.texts, this.images] : [this.images, this.texts];
+	for (const part of parts) {
+            for (const file of part) {
+		command.push(file);
+	    }
         }
         command.push('--gif', this.output);
         return command;
