@@ -15,14 +15,9 @@ const workDir = '/tmp/makesweet-api'
 const upload = multer({ dest: workDir })
 const app = express()
 
-app.get('/', (req, res) => {
-    res.send('Hello World!')
-})
+app.use(express.static('public'));
 
 app.post('/make/:template', upload.any('images'), handleErrors, (req, res) => {
-//    if (!req.files) {
-//        throw new ApiError(400, 'i hunger for images...');
-//    }
     const textHtml = `${process.cwd()}/text.html`;
     const output = `${workDir}/${uuid.v4()}.gif`;
     const template = getTemplatePathFromName(req.params.template);
