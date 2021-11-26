@@ -29,6 +29,9 @@ app.post('/make/:template', upload.any('images'), handleErrors, (req, res) => {
     const generator = new Generator();
     generator.useTemplate(template);
     try {
+        if (req.query.textborder) {
+	    generator.setTextBorder(Number(req.query.textborder));
+        }
         generator.addTexts(req.query.text, textHtml);
         generator.addImages(req.files);
 	if (req.query.textfirst) {
@@ -107,6 +110,7 @@ class Generator {
         this.output = null;
         this.tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'makesweet-api'));
 	this.textFirst = false;
+        this.textBorder = 60;
     }
     useFile(fname) {
         this.fnames.push(fname);
@@ -117,6 +121,9 @@ class Generator {
     }
     setTextFirst() {
 	this.textFirst = true;
+    }
+    setTextBorder(border) {
+	this.textBorder = border;
     }
     addImages(files) {
         if (!files) { return; }
@@ -133,7 +140,7 @@ class Generator {
         console.log("texts", texts)
         let i = 0;
         for (const txt of texts) {
-	    const fname = text2image(htmlTemplate, this.tmpDir, `text_${i}`, txt, 60);
+	    const fname = text2image(htmlTemplate, this.tmpDir, `text_${i}`, txt, this.textBorder);
             this.texts.push(fname);
             this.fnames.push(fname);
             i++;
