@@ -20,4 +20,9 @@
 <p>send stuff with text border:</p>
 <pre><code>curl -H &quot;Authorization: key&quot; -XPOST &quot;https://api.makesweet.com/make/heart-locket?text=a+frog,%0Aa+very,+very+coolfrog&amp;textborder=200&quot; -F images=@frog.jpg -o frog.gif</code></pre>
 <hr />
-<p>the default is images go before text, use &amp;textfirst=1 to make text go first.</p>
+<p>use a different template: available templates: “billboard-cityscape”, “circuit-board”, “flag”, “flying-bear”, “heart-locket”, “nesting-doll”</p>
+<pre><code>curl -H &quot;Authorization: key&quot; -XPOST &quot;https://api.makesweet.com/make/flag&quot; -F images=@frog.jpg -o frog.gif</code></pre>
+<hr />
+<p>make text go before images: use &amp;textfirst=1</p>
+<pre><code>curl -H &quot;Authorization: key&quot; -XPOST &quot;https://api.makesweet.com/make/heart-locket?text=frog&amp;textfirst=1&quot; -F images=@frog.jpg -o frog.gif</code></pre>
+<hr />

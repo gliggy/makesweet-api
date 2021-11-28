@@ -35,4 +35,16 @@ curl -H "Authorization: key" -XPOST "https://api.makesweet.com/make/heart-locket
 ```
 -------
 
-the default is images go before text, use &textfirst=1 to make text go first.
+use a different template:
+available templates: "billboard-cityscape", "circuit-board", "flag", "flying-bear", "heart-locket", "nesting-doll"
+```
+curl -H "Authorization: key" -XPOST "https://api.makesweet.com/make/flag" -F images=@frog.jpg -o frog.gif
+```
+-------
+
+make text go before images:
+use &textfirst=1
+```
+curl -H "Authorization: key" -XPOST "https://api.makesweet.com/make/heart-locket?text=frog&textfirst=1" -F images=@frog.jpg -o frog.gif
+```
+-------
