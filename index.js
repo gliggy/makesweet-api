@@ -18,6 +18,7 @@ const app = express()
 app.use(express.static('public'));
 
 app.post('/make/:template', upload.any('images'), handleErrors, (req, res) => {
+    console.log("HEADERS", req.headers);
     const authorization = String(req.header('authorization')).replace(/[^a-zA-Z0-9]/g, '');
     if (authorization.length === 0 || !fs.existsSync(path.join(process.cwd(), 'keys', authorization))) {
         throw new ApiError(401, 'You need a good Authorization header');
@@ -126,6 +127,7 @@ class Generator {
 	this.textBorder = border;
     }
     addImages(files) {
+	console.log("FILES", {files});
         if (!files) { return; }
         for (const file of files) {
             this.images.push(file.path);
