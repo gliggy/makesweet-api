@@ -71,6 +71,10 @@ function text2image(htmlTemplate, outputDir, prefix, txt, border) {
     return `${outputDir}/${prefix}2.png`;
 }
 
+function convertImage(pre, post) {
+    execSync(`convert ${pre} ${post}`);
+}
+
 function getTemplatePathFromName(name) {
     if (!name) {
         throw new ApiError(400, 'i must have a template i cannot do anything without a template');
@@ -87,11 +91,11 @@ function getTemplatePathFromName(name) {
 }
 
 function handleErrors(err, req, res, next) {
-    console.error(err);
+    console.error("Problem:", {err, code: err.code});
     if (err.code) {
 	return res.status(err.code).json({error: err.message})
     } else {
-        res.status(500).json({error: err})
+        res.status(500).json({error: String(err).replace(/\/home\/[^\/]*\//g, '/home/***/')})
     }
 }
 
@@ -130,8 +134,13 @@ class Generator {
 	console.log("FILES", {files});
         if (!files) { return; }
         for (const file of files) {
-            this.images.push(file.path);
+            // Make sure images are in a format the animator can read.
+            // It is quite fussy - but has good png support.
+            const normalized = file.path + ".png";
+            convertImage(file.path, normalized);
+            this.images.push(normalized);
             this.fnames.push(file.path);
+            this.fnames.push(normalized);
         }
     }
     addTexts(textOrTexts, htmlTemplate) {
